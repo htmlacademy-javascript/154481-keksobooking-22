@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг»
 
 * Студент: [Мария Макарова](https://up.htmlacademy.ru/javascript/22/user/154481).
-* Наставник: `Неизвестно`.
+* Наставник: [Никита Сигов](https://htmlacademy.ru/profile/crazer).
 
 ---
 
