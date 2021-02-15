@@ -1,3 +1,11 @@
+const ROOM_TYPES = ['palace', 'flat', 'house', 'bungalow'];
+const CHECKIN_TIME = ['12:00', '13:00', '14:00'];
+const CHECKOUT_TIME = ['12:00', '13:00', '14:00'];
+const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+const PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+
+
+
 const getRandomFloatNumber = function (min, max, simbolsNumberAfterPoint) {
   if (min < 0) {
     min = Math.abs(min);
@@ -23,13 +31,10 @@ const getRandomFloatNumber = function (min, max, simbolsNumberAfterPoint) {
   return randomFloatNumber;
 }
 
+
 const getRandomNumber = function (min, max) {
   return Math.round(getRandomFloatNumber(min, max));
 }
-
-getRandomNumber();
-getRandomFloatNumber();
-
 
 
 const getRandomArrayElement = function (array) {
@@ -37,15 +42,17 @@ const getRandomArrayElement = function (array) {
   return array[randomIndex];
 }
 
+
 const getRandomUniqArrayElement = function (initialArray, newArray) {
   let randomElement = getRandomArrayElement(initialArray);
 
-  if (newArray.indexOf(randomElement) == -1) {
-    newArray.push(randomElement);
-  } else {
+  if (newArray.includes(randomElement)) {
     getRandomUniqArrayElement(initialArray, newArray);
+  } else {
+    newArray.push(randomElement);
   }
 }
+
 
 const getRandomUniqArray = function (array) {
   let randomArrayLength = getRandomNumber(1, array.length);
@@ -58,50 +65,32 @@ const getRandomUniqArray = function (array) {
   return newArray;
 }
 
-let adMap = {
-  avatarMin: 1,
-  avatarMax: 8,
-  priceMin: 0,
-  priceMax: 100000,
-  roomTypes: ['palace', 'flat', 'house', 'bungalow'],
-  roomsMin: 1,
-  roomsMax: 10,
-  checkinTime: ['12:00', '13:00', '14:00'],
-  checkoutTime: ['12:00', '13:00', '14:00'],
-  features: ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
-  photos: ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'],
-  locationMinX: 35.65000,
-  locationMaxX: 35.70000,
-  locationMinY: 139.70000,
-  locationMaxY: 139.80000,
-  locationSimbolsAfterPoint: 5,
-}
 
-const getAd = function (map) {
-  let {avatarMin, avatarMax, priceMin, priceMax, roomTypes, roomsMin, roomsMax, checkinTime, checkoutTime, features, photos, locationMinX, locationMaxX, locationMinY, locationMaxY, locationSimbolsAfterPoint} = map;
+const getAd = function () {
+  let location = {
+    x: getRandomFloatNumber(35.65000, 35.70000, 5),
+    y: getRandomFloatNumber(139.70000, 139.80000, 5),
+  }
 
   let ad = {
-    author: 'img/avatars/user0' + getRandomNumber(avatarMin, avatarMax) + '.png',
+    author: 'img/avatars/user0' + getRandomNumber(1, 8) + '.png',
     offer: {
       title: 'Комната с корги',
-      address: this.location.x + ', ' + this.location.y,
-      price: getRandomNumber(priceMin, priceMax),
-      type: getRandomArrayElement(roomTypes),
-      rooms: getRandomNumber(roomsMin, roomsMax),
-      guests: getRandomNumber(roomsMin, roomsMax),
-      checkin: getRandomArrayElement(checkinTime),
-      checkout: getRandomArrayElement(checkoutTime),
-      features: getRandomUniqArray(features),
+      address: location.x + ', ' + location.y,
+      price: getRandomNumber(0, 100000),
+      type: getRandomArrayElement(ROOM_TYPES),
+      rooms: getRandomNumber(1, 10),
+      guests: getRandomNumber(1, 10),
+      checkin: getRandomArrayElement(CHECKIN_TIME),
+      checkout: getRandomArrayElement(CHECKOUT_TIME),
+      features: getRandomUniqArray(FEATURES),
       description:'Комната с бегающими повсюду пушистиками корги',
-      photos: getRandomUniqArray(photos),
+      photos: getRandomUniqArray(PHOTOS),
     },
-    location: {
-      x: getRandomFloatNumber(locationMinX, locationMaxX, locationSimbolsAfterPoint),
-      y: getRandomFloatNumber(locationMinY, locationMaxY, locationSimbolsAfterPoint),
-    },
+    location: location,
   }
 
   return ad;
 }
 
-getAd(adMap);
+let ads = new Array(10).fill(null).map(() => getAd());
