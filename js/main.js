@@ -94,3 +94,4 @@ const getAd = function () {
 }
 
 let ads = new Array(10).fill(null).map(() => getAd());
+ads;
