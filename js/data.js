@@ -1,4 +1,4 @@
-import { getRandomFloatNumber, getRandomNumber, getRandomArrayElement, getRandomUniqArrayElement, getRandomUniqArray } from './util.js';
+import { getRandomFloatNumber, getRandomNumber, getRandomArrayElement, getRandomUniqArray } from './util.js';
 
 const ROOM_TYPES = ['palace', 'flat', 'house', 'bungalow'];
 const CHECKIN_TIME = ['12:00', '13:00', '14:00'];
@@ -37,5 +37,3 @@ const getAd = function () {
 
 let ads = new Array(10).fill(null).map(() => getAd());
 ads;
-
-console.log(ads);
