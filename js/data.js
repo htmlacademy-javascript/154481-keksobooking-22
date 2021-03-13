@@ -1,12 +1,12 @@
 import { getRandomFloatNumber, getRandomNumber, getRandomArrayElement, getRandomUniqArray } from './util.js';
 
 const ROOM_TYPES = ['palace', 'flat', 'house', 'bungalow'];
-// const ROOM_TYPES_MAP = {
-//   palace: 'Дворец',
-//   flat: 'Квартира',
-//   house: 'Дом',
-//   bungalow: 'Бунгало',
-// };
+const ROOM_TYPES_MAP = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+};
 const CHECKIN_TIME = ['12:00', '13:00', '14:00'];
 const CHECKOUT_TIME = ['12:00', '13:00', '14:00'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -27,7 +27,6 @@ const getAd = function () {
       address: location.x + ', ' + location.y,
       price: getRandomNumber(0, 100000),
       type: getRandomArrayElement(ROOM_TYPES),
-      //typeMap: ROOM_TYPES_MAP,
       rooms: getRandomNumber(1, 10),
       guests: getRandomNumber(1, 10),
       checkin: getRandomArrayElement(CHECKIN_TIME),
@@ -42,6 +41,6 @@ const getAd = function () {
   return ad;
 }
 
-const getAds = () => new Array(1).fill(null).map(() => getAd());
+const getAds = () => new Array(10).fill(null).map(() => getAd());
 
-export { getAds };
+export { ROOM_TYPES_MAP, getAds };

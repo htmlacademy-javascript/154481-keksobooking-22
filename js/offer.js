@@ -1,112 +1,61 @@
-import { getAds } from './data.js';
+import { ROOM_TYPES_MAP, getAds } from './data.js';
 
-const MAP_CANVAS = document.querySelector('#map-canvas');
-const CARD_TEMPLATE = document.querySelector('#card').content.querySelector('.popup');
+const mapCanvas = document.querySelector('#map-canvas');
+const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
+const mapCanvasFragment = document.createDocumentFragment();
 
-const OFFERS = getAds();
+const offers = getAds();
 
-const MAP_CANVAS_FRAGMENT = document.createDocumentFragment();
+const createFeatures = (array, elememt) => {
+  let fragment = document.createDocumentFragment();
+  const popupFeatures = elememt.querySelector('.popup__features');
+  popupFeatures.innerHTML = '';
 
-OFFERS.forEach((ad) => {
-  const CARD = CARD_TEMPLATE.cloneNode(true);
-
-  let roomsType = null;
-  switch (ad.offer.type) {
-    case 'palace':
-      roomsType = 'Дворец';
-      break;
-    case 'flat':
-      roomsType = 'Квартира';
-      break;
-    case 'house':
-      roomsType = 'Дом';
-      break;
-    case 'bungalow':
-      roomsType = 'Бунгало';
-      break;
-    default:
-      roomsType = null;
-  }
-
-
-
-
-
-
-  /*const FEATURES = ad.offer.features;
-  console.log(FEATURES);
-
-  let popupFeatures = CARD.querySelectorAll('.popup__feature');
-
-  //let filt = popupFeatures.filter((feature) => {!feature.classList.contains('popup__feature--' + FEATURES[0])});
-  //console.log(filt);
-
-  popupFeatures.forEach((feature) => {
-    for (let i = 0; i < FEATURES.length; i++) {
-      if (!feature.classList.contains('popup__feature--' + FEATURES[i])) {
-        feature.classList.add('hidden');
-      }
-    }
+  array.forEach((elememt) => {
+    let feature = document.createElement('li');
+    feature.className = `popup__feature popup__feature--${elememt}`;
+    fragment.appendChild(feature);
   });
 
+  popupFeatures.appendChild(fragment);
+}
 
-  console.log(popupFeatures);
+const createPhotos = (array, elememt) => {
+  let fragment = document.createDocumentFragment();
+  const popupPhotos = elememt.querySelector('.popup__photos');
+  popupPhotos.innerHTML = '';
 
+  array.forEach((elememt) => {
+    let photo = document.createElement('img');
+    photo.src = elememt;
+    photo.className = 'popup__photo';
+    photo.width = 45;
+    photo.height = 40;
+    photo.alt = 'Фотография жилья';
+    fragment.appendChild(photo);
+  });
 
-
-
-  // FEATURES.forEach ( (feature, index) => {
-  //   for (let i = 0; i < popupFeatures.length; i++) {
-  //     if (!popupFeatures[i].classList.contains('popup__feature--' + FEATURES[index])) {
-  //       popupFeatures[i].classList.add('hidden');
-  //     }
-  //   }
-  // });
-*/
-
-
-
-
-
-
-
-
-
-  CARD.querySelector('.popup__title').textContent = ad.offer.title;
-  CARD.querySelector('.popup__text--address').textContent = ad.offer.address;
-  CARD.querySelector('.popup__text--price').textContent = `${ad.offer.price} ₽/ночь`;
-  CARD.querySelector('.popup__type').textContent = roomsType;
-  CARD.querySelector('.popup__text--capacity').textContent = `${ad.offer.rooms} комнаты для ${ad.offer.guests} гостей`;
-  CARD.querySelector('.popup__text--time').textContent = `Заезд после ${ad.offer.checkin}, выезд до ${ad.offer.checkout}`;
-  CARD.querySelector('.popup__description').textContent = ad.offer.description;
-  CARD.querySelector('.popup__avatar').src = ad.author;
+  popupPhotos.appendChild(fragment);
+}
 
 
 
+offers.forEach(({author, offer}) => {
+  const card = cardTemplate.cloneNode(true);
 
+  card.querySelector('.popup__title').textContent = offer.title;
+  card.querySelector('.popup__text--address').textContent = offer.address;
+  card.querySelector('.popup__text--price').textContent = `${offer.price} ₽/ночь`;
+  card.querySelector('.popup__type').textContent = ROOM_TYPES_MAP[offer.type];
+  card.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
+  card.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
+  card.querySelector('.popup__description').textContent = offer.description;
+  card.querySelector('.popup__avatar').src = author;
 
-  const POPUP_PHOTOS = CARD.querySelector('.popup__photos');
-  const POPUP_PHOTO = POPUP_PHOTOS.querySelector('.popup__photo');
-  for (let i = 0; i < ad.offer.photos.length; i++) {
-    if (POPUP_PHOTOS.children.length == ad.offer.photos.length || i == 0) {
-      POPUP_PHOTO.src = ad.offer.photos[i];
-    } else {
-      let POPUP_PHOTO_CLONE = POPUP_PHOTOS.querySelector('.popup__photo').cloneNode();
-      POPUP_PHOTO_CLONE.src = ad.offer.photos[i];
-      POPUP_PHOTOS.appendChild(POPUP_PHOTO_CLONE);
+  createFeatures(offer.features, card);
+  createPhotos(offer.photos, card);
 
-      //let newPhoto = POPUP_PHOTOS.appendChild(POPUP_PHOTO_CLONE);
-      //newPhoto.src = ad.offer.photos[i];
-    }
-  }
-
-
-
-
-
-
-  MAP_CANVAS_FRAGMENT.appendChild(CARD);
+  mapCanvasFragment.appendChild(card);
 });
 
-MAP_CANVAS.appendChild(MAP_CANVAS_FRAGMENT);
-
+mapCanvas.appendChild(mapCanvasFragment);
