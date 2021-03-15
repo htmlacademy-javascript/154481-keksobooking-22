@@ -1,6 +1,12 @@
 import { getRandomFloatNumber, getRandomNumber, getRandomArrayElement, getRandomUniqArray } from './util.js';
 
 const ROOM_TYPES = ['palace', 'flat', 'house', 'bungalow'];
+const ROOM_TYPES_MAP = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+};
 const CHECKIN_TIME = ['12:00', '13:00', '14:00'];
 const CHECKOUT_TIME = ['12:00', '13:00', '14:00'];
 const FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -35,5 +41,6 @@ const getAd = function () {
   return ad;
 }
 
-let ads = new Array(10).fill(null).map(() => getAd());
-ads;
+const getAds = () => new Array(10).fill(null).map(() => getAd());
+
+export { ROOM_TYPES_MAP, getAds };

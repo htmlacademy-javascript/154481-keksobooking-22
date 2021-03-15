@@ -35,26 +35,21 @@ const getRandomArrayElement = function (array) {
 }
 
 
-const getRandomUniqArrayElement = function (initialArray, newArray) {
-  let randomElement = getRandomArrayElement(initialArray);
-
-  if (newArray.includes(randomElement)) {
-    getRandomUniqArrayElement(initialArray, newArray);
-  } else {
-    newArray.push(randomElement);
-  }
-}
-
-
 const getRandomUniqArray = function (array) {
-  let randomArrayLength = getRandomNumber(1, array.length);
+  let newArrayRandomLength = getRandomNumber(1, array.length);
   let newArray = [];
 
-  for (let i = 0; i < randomArrayLength; i++) {
-    getRandomUniqArrayElement(array, newArray);
+  while (newArray.length < newArrayRandomLength) {
+    let randomArrayElement = getRandomArrayElement(array);
+
+    while (newArray.includes(randomArrayElement)) {
+      randomArrayElement = getRandomArrayElement(array);
+    }
+
+    newArray.push(randomArrayElement);
   }
 
   return newArray;
 }
 
-export { getRandomFloatNumber, getRandomNumber, getRandomArrayElement, getRandomUniqArrayElement, getRandomUniqArray };
+export { getRandomFloatNumber, getRandomNumber, getRandomArrayElement, getRandomUniqArray };
